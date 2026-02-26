@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import AssignLessonModal from '@/components/AssignLessonModal';
 import { 
   Users, 
   CheckCircle2, 
@@ -20,9 +21,7 @@ import {
   YAxis, 
   CartesianGrid, 
   Tooltip, 
-  ResponsiveContainer,
-  LineChart,
-  Line
+  ResponsiveContainer
 } from 'recharts';
 
 const data = [
@@ -54,9 +53,9 @@ const TeacherDashboard = () => {
               <h1 className="text-2xl font-bold text-slate-900">Class Overview: Grade 5 Chess</h1>
               <p className="text-slate-500">Monitoring 24 students across 3 active modules.</p>
             </div>
-            <Button className="bg-indigo-600 hover:bg-indigo-700">
+            <AssignLessonModal>
               Assign New Lesson
-            </Button>
+            </AssignLessonModal>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
