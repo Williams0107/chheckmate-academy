@@ -12,40 +12,72 @@ import {
   RotateCcw, 
   ChevronRight,
   CheckCircle2,
-  XCircle
+  XCircle,
+  ChevronLeft
 } from 'lucide-react';
 import { showSuccess, showError } from '@/utils/toast';
-
-const puzzles = [
-  {
-    id: 1,
-    title: "Find the Fork",
-    description: "White to move. Find the move that attacks both the King and the Rook.",
-    fen: "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
-    solution: "Nxg6", // Simplified for demo
-    difficulty: "Intermediate"
-  }
-];
+import { puzzlesData } from '@/data/puzzles';
 
 const Puzzles = () => {
-  const [currentPuzzle, setCurrentPuzzle] = useState(puzzles[0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [status, setStatus] = useState<'idle' | 'correct' | 'wrong'>('idle');
+  const [showHint, setShowHint] = useState(false);
+
+  const currentPuzzle = puzzlesData[currentIndex];
 
   const handleMove = (move: any) => {
-    // In a real app, we'd validate against the solution FEN or move sequence
-    // For MVP, we'll simulate a correct move for any valid move
+    // In a real app, we'd validate the move against the solution
+    // For this demo, we'll simulate success if they make a move
     setStatus('correct');
-    showSuccess("Great job! That's the best move.");
+    showSuccess(`Great job! You earned ${currentPuzzle.xp} XP.`);
+  };
+
+  const nextPuzzle = () => {
+    if (currentIndex < puzzlesData.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+      setStatus('idle');
+      setShowHint(false);
+    } else {
+      showSuccess("You've completed all available puzzles! Check back later for more.");
+      setCurrentIndex(0);
+      setStatus('idle');
+    }
+  };
+
+  const prevPuzzle = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+      setStatus('idle');
+      setShowHint(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900">Tactical Puzzles</h1>
+            <p className="text-slate-500">Solve puzzles to improve your pattern recognition.</p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" size="icon" onClick={prevPuzzle} disabled={currentIndex === 0}>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <span className="flex items-center px-4 bg-white border rounded-lg font-bold text-sm">
+              {currentIndex + 1} / {puzzlesData.length}
+            </span>
+            <Button variant="outline" size="icon" onClick={nextPuzzle} disabled={currentIndex === puzzlesData.length - 1 && status !== 'correct'}>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <div className="flex justify-center py-8 bg-white rounded-3xl shadow-sm border">
-              <ChessBoard fen={currentPuzzle.fen} onMove={handleMove} />
+              <ChessBoard key={currentPuzzle.id} fen={currentPuzzle.fen} onMove={handleMove} />
             </div>
           </div>
 
@@ -57,7 +89,7 @@ const Puzzles = () => {
                 </Badge>
                 <div className="flex items-center gap-1 text-amber-500 font-bold">
                   <Trophy className="h-4 w-4" />
-                  +15 XP
+                  +{currentPuzzle.xp} XP
                 </div>
               </div>
               
@@ -69,18 +101,15 @@ const Puzzles = () => {
                   <CheckCircle2 className="h-6 w-6 text-green-600" />
                   <div>
                     <p className="font-bold text-green-900">Correct!</p>
-                    <p className="text-sm text-green-700">You found the tactical fork.</p>
+                    <p className="text-sm text-green-700">Excellent tactical vision.</p>
                   </div>
                 </div>
               )}
 
-              {status === 'wrong' && (
-                <div className="bg-red-50 border border-red-100 p-4 rounded-xl flex items-center gap-3 mb-6">
-                  <XCircle className="h-6 w-6 text-red-600" />
-                  <div>
-                    <p className="font-bold text-red-900">Not quite...</p>
-                    <p className="text-sm text-red-700">Try looking for a double attack.</p>
-                  </div>
+              {showHint && (
+                <div className="bg-amber-50 border border-amber-100 p-4 rounded-xl flex items-center gap-3 mb-6">
+                  <Lightbulb className="h-6 w-6 text-amber-600" />
+                  <p className="text-sm text-amber-900">{currentPuzzle.hint}</p>
                 </div>
               )}
 
@@ -89,14 +118,14 @@ const Puzzles = () => {
                   <RotateCcw className="h-4 w-4 mr-2" />
                   Retry
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={() => setShowHint(true)}>
                   <Lightbulb className="h-4 w-4 mr-2" />
                   Hint
                 </Button>
               </div>
               
               {status === 'correct' && (
-                <Button className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700">
+                <Button className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700" onClick={nextPuzzle}>
                   Next Puzzle
                   <ChevronRight className="h-4 w-4 ml-2" />
                 </Button>
@@ -104,18 +133,21 @@ const Puzzles = () => {
             </Card>
 
             <Card className="p-6 bg-slate-900 text-white">
-              <h3 className="font-bold mb-4">Puzzle Stats</h3>
+              <h3 className="font-bold mb-4">Your Progress</h3>
               <div className="space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Success Rate</span>
-                  <span className="font-bold">78%</span>
+                  <span className="text-slate-400">Puzzles Solved</span>
+                  <span className="font-bold">{currentIndex + (status === 'correct' ? 1 : 0)} / {puzzlesData.length}</span>
                 </div>
                 <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-green-500 h-full w-[78%]"></div>
+                  <div 
+                    className="bg-green-500 h-full transition-all duration-500" 
+                    style={{ width: `${((currentIndex + (status === 'correct' ? 1 : 0)) / puzzlesData.length) * 100}%` }}
+                  ></div>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Avg. Time</span>
-                  <span className="font-bold">24s</span>
+                  <span className="text-slate-400">Daily Goal</span>
+                  <span className="font-bold">3/5</span>
                 </div>
               </div>
             </Card>

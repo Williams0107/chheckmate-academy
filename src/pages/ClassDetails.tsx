@@ -14,7 +14,8 @@ import {
   Trophy, 
   BarChart3,
   MoreVertical,
-  Mail
+  Mail,
+  ArrowRight
 } from 'lucide-react';
 
 const ClassDetails = () => {
@@ -115,12 +116,17 @@ const ClassDetails = () => {
                 </thead>
                 <tbody className="divide-y">
                   {[
-                    { name: 'Alex Johnson', status: 'On Track', progress: 85, last: '2h ago' },
-                    { name: 'Sarah Williams', status: 'Needs Help', progress: 42, last: '5h ago' },
-                    { name: 'Michael Chen', status: 'Advanced', progress: 98, last: '10m ago' },
-                  ].map((student, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-slate-900">{student.name}</td>
+                    { id: '1', name: 'Alex Johnson', status: 'On Track', progress: 85, last: '2h ago' },
+                    { id: '2', name: 'Sarah Williams', status: 'Needs Help', progress: 42, last: '5h ago' },
+                    { id: '3', name: 'Michael Chen', status: 'Advanced', progress: 98, last: '10m ago' },
+                  ].map((student) => (
+                    <tr key={student.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="px-6 py-4">
+                        <Link to={`/teacher/student/${student.id}`} className="font-medium text-slate-900 hover:text-indigo-600 flex items-center gap-2">
+                          {student.name}
+                          <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </Link>
+                      </td>
                       <td className="px-6 py-4">
                         <Badge className={
                           student.status === 'Advanced' ? 'bg-indigo-100 text-indigo-600' :
@@ -140,7 +146,11 @@ const ClassDetails = () => {
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-500">{student.last}</td>
                       <td className="px-6 py-4 text-right">
-                        <Button variant="ghost" size="icon"><MoreVertical className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" asChild>
+                          <Link to={`/teacher/student/${student.id}`}>
+                            <MoreVertical className="h-4 w-4" />
+                          </Link>
+                        </Button>
                       </td>
                     </tr>
                   ))}
