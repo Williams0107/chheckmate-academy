@@ -3,6 +3,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import DashboardSidebar from '@/components/DashboardSidebar';
+import MobileDashboardNav from '@/components/MobileDashboardNav';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,29 +14,30 @@ import {
   Target,
   Play,
   ArrowRight,
-  Award
+  Award,
+  CheckCircle2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const StudentDashboard = () => {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 pb-20 md:pb-0">
       <Navbar />
       <div className="flex">
         <DashboardSidebar role="student" />
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-4 md:p-8">
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
               {/* Welcome Section */}
-              <div className="bg-indigo-600 rounded-3xl p-8 text-white relative overflow-hidden">
+              <div className="bg-indigo-600 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden">
                 <div className="relative z-10">
-                  <h1 className="text-3xl font-bold mb-2">Welcome back, Michael! 👋</h1>
+                  <h1 className="text-2xl md:text-3xl font-bold mb-2">Welcome back, Michael! 👋</h1>
                   <p className="text-indigo-100 mb-6 max-w-md">You're on a 5-day streak! Solve today's puzzle to keep it going.</p>
                   <Button className="bg-white text-indigo-600 hover:bg-indigo-50" asChild>
                     <Link to="/puzzles">Solve Daily Puzzle</Link>
                   </Button>
                 </div>
-                <Trophy className="absolute right-8 bottom-[-20px] h-48 w-48 text-indigo-500 opacity-20 rotate-12" />
+                <Trophy className="absolute right-4 bottom-[-20px] h-32 w-32 md:h-48 md:w-48 text-indigo-500 opacity-20 rotate-12" />
               </div>
 
               {/* Current Lesson */}
@@ -47,8 +49,8 @@ const StudentDashboard = () => {
                   </Link>
                 </div>
                 <div className="bg-slate-50 rounded-2xl p-6 border flex flex-col md:flex-row gap-6 items-center">
-                  <div className="w-24 h-24 bg-indigo-100 rounded-2xl flex items-center justify-center shrink-0">
-                    <Zap className="h-10 w-10 text-indigo-600" />
+                  <div className="w-20 h-20 md:w-24 md:h-24 bg-indigo-100 rounded-2xl flex items-center justify-center shrink-0">
+                    <Zap className="h-8 w-8 md:h-10 md:w-10 text-indigo-600" />
                   </div>
                   <div className="flex-1 text-center md:text-left">
                     <Badge className="mb-2 bg-indigo-100 text-indigo-600 hover:bg-indigo-100 border-none">Intermediate</Badge>
@@ -61,7 +63,7 @@ const StudentDashboard = () => {
                       <span className="text-sm font-bold text-slate-600">45%</span>
                     </div>
                   </div>
-                  <Button className="bg-indigo-600 hover:bg-indigo-700 shrink-0" asChild>
+                  <Button className="bg-indigo-600 hover:bg-indigo-700 shrink-0 w-full md:w-auto" asChild>
                     <Link to="/lesson/i1">Resume Lesson</Link>
                   </Button>
                 </div>
@@ -148,9 +150,9 @@ const StudentDashboard = () => {
           </div>
         </main>
       </div>
+      <MobileDashboardNav role="student" />
     </div>
   );
 };
 
-import { CheckCircle2 } from 'lucide-react';
 export default StudentDashboard;
