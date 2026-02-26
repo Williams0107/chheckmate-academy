@@ -9,7 +9,8 @@ import {
   Trophy, 
   Settings, 
   LogOut,
-  BarChart3
+  BarChart3,
+  Cpu
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -32,6 +33,7 @@ const DashboardSidebar = ({ role }: SidebarProps) => {
     { icon: LayoutDashboard, label: 'My Progress', path: '/student' },
     { icon: BookOpen, label: 'Lessons', path: '/curriculum' },
     { icon: Trophy, label: 'Puzzles', path: '/puzzles' },
+    { icon: Cpu, label: 'Play AI', path: '/play-ai' },
     { icon: BarChart3, label: 'Stats', path: '/student/stats' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
@@ -39,7 +41,7 @@ const DashboardSidebar = ({ role }: SidebarProps) => {
   const links = role === 'teacher' ? teacherLinks : studentLinks;
 
   return (
-    <div className="w-64 bg-white border-r h-[calc(100-64px)] sticky top-16 hidden md:flex flex-col p-4">
+    <div className="w-64 bg-white border-r h-[calc(100vh-64px)] sticky top-16 hidden md:flex flex-col p-4">
       <div className="space-y-1 flex-1">
         {links.map((link) => (
           <Link

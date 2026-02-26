@@ -15,6 +15,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import ParentDashboard from "./pages/ParentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import Puzzles from "./pages/Puzzles";
+import PlayAI from "./pages/PlayAI";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Schools from "./pages/Schools";
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/parent" element={<ParentDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/puzzles" element={<Puzzles />} />
+          <Route path="/play-ai" element={<PlayAI />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/schools" element={<Schools />} />

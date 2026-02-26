@@ -15,7 +15,8 @@ import {
   Play,
   ArrowRight,
   Award,
-  CheckCircle2
+  CheckCircle2,
+  Cpu
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -32,10 +33,15 @@ const StudentDashboard = () => {
               <div className="bg-indigo-600 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden">
                 <div className="relative z-10">
                   <h1 className="text-2xl md:text-3xl font-bold mb-2">Welcome back, Michael! 👋</h1>
-                  <p className="text-indigo-100 mb-6 max-w-md">You're on a 5-day streak! Solve today's puzzle to keep it going.</p>
-                  <Button className="bg-white text-indigo-600 hover:bg-indigo-50" asChild>
-                    <Link to="/puzzles">Solve Daily Puzzle</Link>
-                  </Button>
+                  <p className="text-indigo-100 mb-6 max-w-md">You're on a 5-day streak! Solve today's puzzle or practice with AI to keep it going.</p>
+                  <div className="flex flex-wrap gap-3">
+                    <Button className="bg-white text-indigo-600 hover:bg-indigo-50" asChild>
+                      <Link to="/puzzles">Solve Daily Puzzle</Link>
+                    </Button>
+                    <Button variant="secondary" className="bg-indigo-500 text-white hover:bg-indigo-400 border-none" asChild>
+                      <Link to="/play-ai">Practice vs AI</Link>
+                    </Button>
+                  </div>
                 </div>
                 <Trophy className="absolute right-4 bottom-[-20px] h-32 w-32 md:h-48 md:w-48 text-indigo-500 opacity-20 rotate-12" />
               </div>
@@ -69,24 +75,28 @@ const StudentDashboard = () => {
                 </div>
               </Card>
 
-              {/* Recent Achievements */}
-              <div>
-                <h3 className="font-bold text-slate-900 mb-4">Recent Achievements</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
-                    { label: 'Tactician I', icon: Target, color: 'text-amber-500', bg: 'bg-amber-50' },
-                    { label: '5 Day Streak', icon: Zap, color: 'text-orange-500', bg: 'bg-orange-50' },
-                    { label: 'Puzzle Master', icon: Award, color: 'text-purple-500', bg: 'bg-purple-50' },
-                    { label: 'First Win', icon: Trophy, color: 'text-blue-500', bg: 'bg-blue-50' },
-                  ].map((badge, idx) => (
-                    <Card key={idx} className="p-4 text-center flex flex-col items-center gap-2">
-                      <div className={`${badge.bg} p-3 rounded-full`}>
-                        <badge.icon className={`h-6 w-6 ${badge.color}`} />
-                      </div>
-                      <p className="text-xs font-bold text-slate-700">{badge.label}</p>
-                    </Card>
-                  ))}
-                </div>
+              {/* Practice Modes */}
+              <div className="grid md:grid-cols-2 gap-6">
+                <Card className="p-6 hover:shadow-md transition-shadow border-none bg-white">
+                  <div className="bg-amber-50 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                    <Trophy className="h-6 w-6 text-amber-600" />
+                  </div>
+                  <h4 className="font-bold text-slate-900 mb-2">Tactical Puzzles</h4>
+                  <p className="text-sm text-slate-500 mb-4">Improve your pattern recognition with 1,000+ curated puzzles.</p>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/puzzles">Start Puzzles</Link>
+                  </Button>
+                </Card>
+                <Card className="p-6 hover:shadow-md transition-shadow border-none bg-white">
+                  <div className="bg-indigo-50 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+                    <Cpu className="h-6 w-6 text-indigo-600" />
+                  </div>
+                  <h4 className="font-bold text-slate-900 mb-2">Play vs AI</h4>
+                  <p className="text-sm text-slate-500 mb-4">Test your strategies against our adaptive chess engine.</p>
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/play-ai">Start Practice</Link>
+                  </Button>
+                </Card>
               </div>
             </div>
 
@@ -144,7 +154,9 @@ const StudentDashboard = () => {
                     </div>
                   ))}
                 </div>
-                <Button variant="ghost" className="w-full mt-4 text-indigo-600">View Full Leaderboard</Button>
+                <Button variant="ghost" className="w-full mt-4 text-indigo-600" asChild>
+                  <Link to="/leaderboard">View Full Leaderboard</Link>
+                </Button>
               </Card>
             </div>
           </div>
