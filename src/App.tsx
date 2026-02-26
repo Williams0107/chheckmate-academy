@@ -19,6 +19,8 @@ import Schools from "./pages/Schools";
 import Settings from "./pages/Settings";
 import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
+import Leaderboard from "./pages/Leaderboard";
+import Achievements from "./pages/Achievements";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +46,8 @@ const App = () => (
           <Route path="/settings" element={<Settings />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/achievements" element={<Achievements />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

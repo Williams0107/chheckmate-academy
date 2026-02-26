@@ -1,15 +1,42 @@
 "use client";
 
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import ChessBoard from '@/components/ChessBoard';
+import LessonQuiz from '@/components/LessonQuiz';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Info, Lightbulb } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ChevronLeft, ChevronRight, Info, Lightbulb, BookOpen, CheckCircle2 } from 'lucide-react';
+import { showSuccess } from '@/utils/toast';
+
+const quizQuestions = [
+  {
+    id: 1,
+    text: "How many squares are on a standard chessboard?",
+    options: ["32", "64", "81", "100"],
+    correctIndex: 1,
+    explanation: "A standard chessboard is an 8x8 grid, which equals 64 squares."
+  },
+  {
+    id: 2,
+    text: "Which square should always be a light-colored square for both players?",
+    options: ["Bottom-left", "Top-left", "Bottom-right", "Center"],
+    correctIndex: 2,
+    explanation: "The rule is 'White on right' - the bottom-right square must be light-colored."
+  }
+];
 
 const Lesson = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('learn');
+
+  const handleQuizComplete = () => {
+    showSuccess("Lesson completed! You've earned 50 XP.");
+    navigate('/curriculum');
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -28,29 +55,51 @@ const Lesson = () => {
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <Card className="p-6 bg-white shadow-sm mb-6">
-              <h1 className="text-3xl font-bold text-slate-900 mb-4">The Chessboard & Coordinates</h1>
-              <div className="prose prose-slate max-w-none mb-8">
-                <p className="text-lg text-slate-600 leading-relaxed">
-                  Before we move the pieces, we must understand the battlefield. The chessboard is an 8x8 grid of 64 squares, alternating between light and dark colors.
-                </p>
-                <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100 flex gap-3 my-6">
-                  <Info className="h-6 w-6 text-indigo-600 shrink-0" />
-                  <p className="text-indigo-900 text-sm">
-                    <strong>Pro Tip:</strong> Always ensure the bottom-right square is a light-colored square. "White on right!"
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex justify-center py-8 bg-slate-50 rounded-2xl border border-dashed">
-                <ChessBoard />
-              </div>
-            </Card>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+              <TabsList className="bg-white border p-1">
+                <TabsTrigger value="learn" className="px-8">
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  Learn
+                </TabsTrigger>
+                <TabsTrigger value="quiz" className="px-8">
+                  <CheckCircle2 className="h-4 w-4 mr-2" />
+                  Quiz
+                </TabsTrigger>
+              </TabsList>
 
-            <div className="flex justify-between items-center">
-              <Button variant="outline">Previous Lesson</Button>
-              <Button className="bg-indigo-600 hover:bg-indigo-700">Next: The King & The Goal</Button>
-            </div>
+              <TabsContent value="learn">
+                <Card className="p-6 bg-white shadow-sm mb-6">
+                  <h1 className="text-3xl font-bold text-slate-900 mb-4">The Chessboard & Coordinates</h1>
+                  <div className="prose prose-slate max-w-none mb-8">
+                    <p className="text-lg text-slate-600 leading-relaxed">
+                      Before we move the pieces, we must understand the battlefield. The chessboard is an 8x8 grid of 64 squares, alternating between light and dark colors.
+                    </p>
+                    <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100 flex gap-3 my-6">
+                      <Info className="h-6 w-6 text-indigo-600 shrink-0" />
+                      <p className="text-indigo-900 text-sm">
+                        <strong>Pro Tip:</strong> Always ensure the bottom-right square is a light-colored square. "White on right!"
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-center py-8 bg-slate-50 rounded-2xl border border-dashed">
+                    <ChessBoard />
+                  </div>
+                </Card>
+
+                <div className="flex justify-between items-center">
+                  <Button variant="outline">Previous Lesson</Button>
+                  <Button className="bg-indigo-600 hover:bg-indigo-700" onClick={() => setActiveTab('quiz')}>
+                    Take Quiz
+                    <ChevronRight className="h-4 w-4 ml-2" />
+                  </Button>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="quiz">
+                <LessonQuiz questions={quizQuestions} onComplete={handleQuizComplete} />
+              </TabsContent>
+            </Tabs>
           </div>
 
           <div className="space-y-6">
