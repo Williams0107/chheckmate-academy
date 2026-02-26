@@ -24,6 +24,8 @@ import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
 import Leaderboard from "./pages/Leaderboard";
 import Achievements from "./pages/Achievements";
+import TeacherAnalytics from "./pages/TeacherAnalytics";
+import StudentStats from "./pages/StudentStats";
 
 const queryClient = new QueryClient();
 
@@ -41,7 +43,9 @@ const App = () => (
           <Route path="/teacher/classes" element={<TeacherClasses />} />
           <Route path="/teacher/classes/:id" element={<ClassDetails />} />
           <Route path="/teacher/student/:id" element={<StudentProfile />} />
+          <Route path="/teacher/analytics" element={<TeacherAnalytics />} />
           <Route path="/student" element={<StudentDashboard />} />
+          <Route path="/student/stats" element={<StudentStats />} />
           <Route path="/parent" element={<ParentDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/puzzles" element={<Puzzles />} />

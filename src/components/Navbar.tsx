@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Trophy, Menu, X } from 'lucide-react';
+import NotificationCenter from './NotificationCenter';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -19,10 +20,15 @@ const Navbar = () => {
             </Link>
           </div>
           
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             <Link to="/curriculum" className="text-gray-600 hover:text-indigo-600 font-medium">Curriculum</Link>
             <Link to="/schools" className="text-gray-600 hover:text-indigo-600 font-medium">For Schools</Link>
             <Link to="/parents" className="text-gray-600 hover:text-indigo-600 font-medium">For Parents</Link>
+            
+            <div className="h-6 w-px bg-slate-200 mx-2"></div>
+            
+            <NotificationCenter />
+            
             <Button variant="outline" asChild>
               <Link to="/login">Login</Link>
             </Button>
@@ -31,7 +37,8 @@ const Navbar = () => {
             </Button>
           </div>
 
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center gap-4">
+            <NotificationCenter />
             <button onClick={() => setIsOpen(!isOpen)} className="text-gray-600">
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -45,10 +52,10 @@ const Navbar = () => {
           <Link to="/schools" className="block px-3 py-2 text-gray-600 font-medium">For Schools</Link>
           <Link to="/parents" className="block px-3 py-2 text-gray-600 font-medium">For Parents</Link>
           <div className="pt-4 flex flex-col gap-2">
-            <Button variant="outline" fullWidth asChild>
+            <Button variant="outline" className="w-full" asChild>
               <Link to="/login">Login</Link>
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700" fullWidth asChild>
+            <Button className="bg-indigo-600 hover:bg-indigo-700 w-full" asChild>
               <Link to="/signup">Get Started</Link>
             </Button>
           </div>
