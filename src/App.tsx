@@ -9,7 +9,11 @@ import Curriculum from "./pages/Curriculum";
 import Lesson from "./pages/Lesson";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
+import ParentDashboard from "./pages/ParentDashboard";
 import Puzzles from "./pages/Puzzles";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Schools from "./pages/Schools";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +29,11 @@ const App = () => (
           <Route path="/lesson/:id" element={<Lesson />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
           <Route path="/student" element={<StudentDashboard />} />
+          <Route path="/parent" element={<ParentDashboard />} />
           <Route path="/puzzles" element={<Puzzles />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/schools" element={<Schools />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
