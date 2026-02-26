@@ -5,19 +5,30 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import ChessBoard from '@/components/ChessBoard';
 import LessonQuiz from '@/components/LessonQuiz';
+import AICoach from '@/components/AICoach';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ChevronLeft, ChevronRight, Info, Lightbulb, BookOpen, CheckCircle2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Info, Lightbulb, BookOpen, CheckCircle2, Sparkles } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
 import { lessonsData } from '@/data/lessons';
+import { getCoachHint } from '@/utils/chessAI';
+import { Chess } from 'chess.js';
 
 const Lesson = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('learn');
+  const [currentFen, setCurrentFen] = useState('start');
+  const [showCoach, setShowCoach] = useState(false);
   
   const lesson = lessonsData[id as keyof typeof lessonsData];
+
+  useEffect(() => {
+    if (lesson) {
+      setCurrentFen(lesson.fen);
+    }
+  }, [lesson]);
 
   if (!lesson) {
     return (
@@ -35,23 +46,45 @@ const Lesson = () => {
     navigate('/curriculum');
   };
 
+  const handleMove = (move: any) => {
+    // Update local FEN to keep track of board state for the coach
+    const game = new Chess(currentFen === 'start' ? undefined : currentFen);
+    game.move(move);
+    setCurrentFen(game.fen());
+  };
+
+  const getHint = () => {
+    const game = new Chess(currentFen === 'start' ? undefined : currentFen);
+    return getCoachHint(game, lesson.title);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex items-center gap-2 mb-8">
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/curriculum">
-              <ChevronLeft className="h-4 w-4 mr-1" />
-              Back to Curriculum
-            </Link>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/curriculum">
+                <ChevronLeft className="h-4 w-4 mr-1" />
+                Back to Curriculum
+              </Link>
+            </Button>
+            <span className="text-slate-300">|</span>
+            <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">{lesson.level} Level</span>
+          </div>
+          <Button 
+            variant={showCoach ? "secondary" : "outline"} 
+            className={showCoach ? "bg-indigo-100 text-indigo-600 border-indigo-200" : ""}
+            onClick={() => setShowCoach(!showCoach)}
+          >
+            <Sparkles className="h-4 w-4 mr-2" />
+            {showCoach ? "Hide AI Coach" : "Ask AI Coach"}
           </Button>
-          <span className="text-slate-300">|</span>
-          <span className="text-sm font-medium text-slate-500 uppercase tracking-wider">{lesson.level} Level</span>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
+          <div className={showCoach ? "lg:col-span-2" : "lg:col-span-3 max-w-4xl mx-auto w-full"}>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
               <TabsList className="bg-white border p-1">
                 <TabsTrigger value="learn" className="px-8">
@@ -80,7 +113,7 @@ const Lesson = () => {
                   </div>
                   
                   <div className="flex justify-center py-8 bg-slate-50 rounded-2xl border border-dashed">
-                    <ChessBoard fen={lesson.fen} />
+                    <ChessBoard fen={lesson.fen} onMove={handleMove} />
                   </div>
                 </Card>
 
@@ -99,29 +132,22 @@ const Lesson = () => {
             </Tabs>
           </div>
 
-          <div className="space-y-6">
-            <Card className="p-6 bg-white shadow-sm">
-              <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <Lightbulb className="h-5 w-5 text-amber-500" />
-                Practice Drill
-              </h3>
-              <p className="text-sm text-slate-600 mb-6">
-                {lesson.drill}
-              </p>
-              <div className="space-y-3">
-                <div className="p-3 bg-slate-50 rounded-lg border text-sm flex justify-between items-center">
-                  <span>Interactive Exercise</span>
-                  <Button size="sm" variant="outline">Start Drill</Button>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6 bg-indigo-900 text-white shadow-sm">
-              <h3 className="font-bold mb-2">Need Help?</h3>
-              <p className="text-indigo-200 text-sm mb-4">Our AI coach is ready to assist you with this lesson.</p>
-              <Button variant="secondary" className="w-full">Ask Coach</Button>
-            </Card>
-          </div>
+          {showCoach && (
+            <div className="space-y-6">
+              <AICoach lessonTitle={lesson.title} onGetHint={getHint} />
+              
+              <Card className="p-6 bg-white shadow-sm">
+                <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <Lightbulb className="h-5 w-5 text-amber-500" />
+                  Practice Drill
+                </h3>
+                <p className="text-sm text-slate-600 mb-6">
+                  {lesson.drill}
+                </p>
+                <Button size="sm" variant="outline" className="w-full">Start Drill</Button>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
     </div>
