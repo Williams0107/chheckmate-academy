@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
 import { Card } from '@/components/ui/card';
@@ -15,6 +15,8 @@ interface ChessBoardProps {
 
 const ChessBoard = ({ fen = 'start', onMove, interactive = true }: ChessBoardProps) => {
   const [game, setGame] = useState(new Chess(fen === 'start' ? undefined : fen));
+  const [moveSquares, setMoveSquares] = useState({});
+  const [optionSquares, setOptionSquares] = useState({});
 
   function makeAMove(move: any) {
     const gameCopy = new Chess(game.fen());
@@ -36,13 +38,51 @@ const ChessBoard = ({ fen = 'start', onMove, interactive = true }: ChessBoardPro
     const move = makeAMove({
       from: sourceSquare,
       to: targetSquare,
-      promotion: 'q', // always promote to queen for simplicity in MVP
+      promotion: 'q',
     });
-    return move !== null;
+    
+    if (move === null) return false;
+    
+    setMoveSquares({
+      [sourceSquare]: { backgroundColor: 'rgba(255, 255, 0, 0.4)' },
+      [targetSquare]: { backgroundColor: 'rgba(255, 255, 0, 0.4)' },
+    });
+    return true;
+  }
+
+  function onMouseOverSquare(square: string) {
+    if (!interactive) return;
+    const moves = game.moves({
+      square,
+      verbose: true,
+    });
+    if (moves.length === 0) return;
+
+    const newSquares = {};
+    moves.map((move) => {
+      newSquares[move.to] = {
+        background:
+          game.get(move.to) && game.get(move.to).color !== game.get(square).color
+            ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
+            : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
+        borderRadius: '50%',
+      };
+      return move;
+    });
+    newSquares[square] = {
+      background: 'rgba(255, 255, 0, 0.4)',
+    };
+    setOptionSquares(newSquares);
+  }
+
+  function onMouseOutSquare() {
+    setOptionSquares({});
   }
 
   const resetGame = () => {
     setGame(new Chess(fen === 'start' ? undefined : fen));
+    setMoveSquares({});
+    setOptionSquares({});
   };
 
   return (
@@ -51,7 +91,13 @@ const ChessBoard = ({ fen = 'start', onMove, interactive = true }: ChessBoardPro
         <Chessboard 
           position={game.fen()} 
           onPieceDrop={onDrop}
+          onMouseOverSquare={onMouseOverSquare}
+          onMouseOutSquare={onMouseOutSquare}
           boardOrientation="white"
+          customSquareStyles={{
+            ...moveSquares,
+            ...optionSquares,
+          }}
           customBoardStyle={{
             borderRadius: '4px',
             boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)'
