@@ -25,9 +25,9 @@ const levels = [
     title: 'Intermediate: Tactics & Strategy',
     description: 'Learn forks, pins, skewers, and basic opening principles.',
     lessons: [
-      { id: 'i1', title: 'The Power of the Fork', duration: '30m', locked: true },
-      { id: 'i2', title: 'Pins & Skewers', duration: '35m', locked: true },
-      { id: 'i3', title: 'Basic Opening Principles', duration: '40m', locked: true },
+      { id: 'i1', title: 'The Power of the Fork', duration: '30m', completed: false },
+      { id: 'i2', title: 'Pins & Skewers', duration: '35m', completed: false },
+      { id: 'i3', title: 'Basic Opening Principles', duration: '40m', completed: false },
     ]
   },
   {
@@ -35,8 +35,8 @@ const levels = [
     title: 'Advanced: Mastery',
     description: 'Complex endgames, positional play, and deep calculation.',
     lessons: [
-      { id: 'a1', title: 'Rook Endgames', duration: '45m', locked: true },
-      { id: 'a2', title: 'Positional Sacrifices', duration: '50m', locked: true },
+      { id: 'a1', title: 'Rook Endgames', duration: '45m', completed: false },
+      { id: 'a2', title: 'Positional Sacrifices', duration: '50m', completed: false },
     ]
   }
 ];
@@ -66,7 +66,7 @@ const Curriculum = () => {
 
               <div className="grid gap-4">
                 {level.lessons.map((lesson) => (
-                  <Card key={lesson.id} className={`p-4 flex items-center justify-between ${lesson.locked ? 'opacity-60' : 'hover:border-indigo-300 transition-colors'}`}>
+                  <Card key={lesson.id} className={`p-4 flex items-center justify-between hover:border-indigo-300 transition-colors`}>
                     <div className="flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center ${lesson.completed ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
                         {lesson.completed ? <CheckCircle2 className="h-6 w-6" /> : <BookOpen className="h-5 w-5" />}
@@ -77,16 +77,12 @@ const Curriculum = () => {
                       </div>
                     </div>
                     
-                    {lesson.locked ? (
-                      <Lock className="h-5 w-5 text-slate-400 mr-4" />
-                    ) : (
-                      <Button variant="ghost" className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50" asChild>
-                        <Link to={`/lesson/${lesson.id}`}>
-                          <Play className="h-4 w-4 mr-2 fill-current" />
-                          Start
-                        </Link>
-                      </Button>
-                    )}
+                    <Button variant="ghost" className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50" asChild>
+                      <Link to={`/lesson/${lesson.id}`}>
+                        <Play className="h-4 w-4 mr-2 fill-current" />
+                        Start
+                      </Link>
+                    </Button>
                   </Card>
                 ))}
               </div>

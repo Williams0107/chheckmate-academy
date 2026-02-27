@@ -13,6 +13,7 @@ import ClassDetails from "./pages/ClassDetails";
 import StudentProfile from "./pages/StudentProfile";
 import StudentDashboard from "./pages/StudentDashboard";
 import ParentDashboard from "./pages/ParentDashboard";
+import ParentChildDetail from "./pages/ParentChildDetail";
 import AdminDashboard from "./pages/AdminDashboard";
 import Puzzles from "./pages/Puzzles";
 import PlayAI from "./pages/PlayAI";
@@ -53,6 +54,7 @@ const App = () => (
           <Route path="/student/stats" element={<StudentStats />} />
           <Route path="/student/assignments" element={<StudentAssignments />} />
           <Route path="/parent" element={<ParentDashboard />} />
+          <Route path="/parent/child/:id" element={<ParentChildDetail />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/puzzles" element={<Puzzles />} />
           <Route path="/puzzle-rush" element={<PuzzleRush />} />
