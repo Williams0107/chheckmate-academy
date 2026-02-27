@@ -29,6 +29,8 @@ import StudentStats from "./pages/StudentStats";
 import GameAnalysis from "./pages/GameAnalysis";
 import Tournaments from "./pages/Tournaments";
 import StudentAssignments from "./pages/StudentAssignments";
+import PuzzleRush from "./pages/PuzzleRush";
+import OpeningExplorer from "./pages/OpeningExplorer";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +55,8 @@ const App = () => (
           <Route path="/parent" element={<ParentDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/puzzles" element={<Puzzles />} />
+          <Route path="/puzzle-rush" element={<PuzzleRush />} />
+          <Route path="/openings" element={<OpeningExplorer />} />
           <Route path="/play-ai" element={<PlayAI />} />
           <Route path="/analysis" element={<GameAnalysis />} />
           <Route path="/tournaments" element={<Tournaments />} />

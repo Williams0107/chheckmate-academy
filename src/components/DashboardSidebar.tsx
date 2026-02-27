@@ -13,7 +13,9 @@ import {
   Cpu,
   ClipboardList,
   Sword,
-  Search
+  Search,
+  Zap,
+  Compass
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -37,7 +39,9 @@ const DashboardSidebar = ({ role }: SidebarProps) => {
     { icon: LayoutDashboard, label: 'My Progress', path: '/student' },
     { icon: ClipboardList, label: 'Assignments', path: '/student/assignments' },
     { icon: BookOpen, label: 'Lessons', path: '/curriculum' },
+    { icon: Zap, label: 'Puzzle Rush', path: '/puzzle-rush' },
     { icon: Trophy, label: 'Puzzles', path: '/puzzles' },
+    { icon: Compass, label: 'Openings', path: '/openings' },
     { icon: Sword, label: 'Tournaments', path: '/tournaments' },
     { icon: Search, label: 'Analysis', path: '/analysis' },
     { icon: Cpu, label: 'Play AI', path: '/play-ai' },
