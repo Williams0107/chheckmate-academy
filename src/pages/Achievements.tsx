@@ -1,12 +1,14 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import MobileDashboardNav from '@/components/MobileDashboardNav';
+import CertificatePreview from '@/components/CertificatePreview';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Trophy, Zap, Target, Award, Star, Shield, Flame, BookOpen, Lock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Trophy, Zap, Target, Award, Star, Shield, Flame, BookOpen, Lock, FileText } from 'lucide-react';
 
 const achievements = [
   { id: 1, title: 'First Move', desc: 'Complete your first lesson.', icon: BookOpen, color: 'text-blue-600', bg: 'bg-blue-50', earned: true, date: 'Oct 1, 2024' },
@@ -14,12 +16,14 @@ const achievements = [
   { id: 3, title: '5 Day Streak', desc: 'Log in for 5 consecutive days.', icon: Flame, color: 'text-orange-600', bg: 'bg-orange-50', earned: true, date: 'Oct 5, 2024' },
   { id: 4, title: 'Puzzle Master', desc: 'Solve 50 tactical puzzles.', icon: Award, color: 'text-purple-600', bg: 'bg-purple-50', earned: false, progress: 34 },
   { id: 5, title: 'Grandmaster Path', desc: 'Reach a skill rating of 1500.', icon: Trophy, color: 'text-indigo-600', bg: 'bg-indigo-50', earned: false, progress: 82 },
-  { id: 6, title: 'Scholar', desc: 'Complete the entire Beginner module.', icon: Star, color: 'text-yellow-600', bg: 'bg-yellow-50', earned: false, progress: 65 },
+  { id: 6, title: 'Scholar', desc: 'Complete the entire Beginner module.', icon: Star, color: 'text-yellow-600', bg: 'bg-yellow-50', earned: true, date: 'Oct 7, 2024', hasCertificate: true },
   { id: 7, title: 'Defender', desc: 'Win 5 games without losing your Queen.', icon: Shield, color: 'text-green-600', bg: 'bg-green-50', earned: false, progress: 20 },
   { id: 8, title: 'Speed Demon', desc: 'Solve a puzzle in under 5 seconds.', icon: Zap, color: 'text-red-600', bg: 'bg-red-50', earned: false, progress: 0 },
 ];
 
 const Achievements = () => {
+  const [showCertificate, setShowCertificate] = useState(false);
+
   return (
     <div className="min-h-screen bg-slate-50 pb-20 md:pb-0">
       <Navbar />
@@ -86,7 +90,15 @@ const Achievements = () => {
                     <p className="text-sm text-slate-500 mb-4">{achievement.desc}</p>
                     
                     {achievement.earned ? (
-                      <p className="text-xs text-slate-400 font-medium">Unlocked on {achievement.date}</p>
+                      <div className="flex justify-between items-center">
+                        <p className="text-xs text-slate-400 font-medium">Unlocked on {achievement.date}</p>
+                        {achievement.hasCertificate && (
+                          <Button variant="ghost" size="sm" className="text-indigo-600 h-7 text-xs" onClick={() => setShowCertificate(true)}>
+                            <FileText className="h-3 w-3 mr-1" />
+                            Certificate
+                          </Button>
+                        )}
+                      </div>
                     ) : (
                       <div className="space-y-2">
                         <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase">
@@ -106,6 +118,15 @@ const Achievements = () => {
         </main>
       </div>
       <MobileDashboardNav role="student" />
+      
+      {showCertificate && (
+        <CertificatePreview 
+          studentName="Michael Chen" 
+          moduleName="Beginner Fundamentals" 
+          date="October 7, 2024" 
+          onClose={() => setShowCertificate(false)} 
+        />
+      )}
     </div>
   );
 };

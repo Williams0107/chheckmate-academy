@@ -17,7 +17,8 @@ import {
   ArrowRight,
   Award,
   CheckCircle2,
-  Cpu
+  Cpu,
+  Lightbulb
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -47,6 +48,31 @@ const StudentDashboard = () => {
                 <Trophy className="absolute right-4 bottom-[-20px] h-32 w-32 md:h-48 md:w-48 text-indigo-500 opacity-20 rotate-12" />
               </div>
 
+              {/* Puzzle of the Day Highlight */}
+              <Card className="p-6 border-none shadow-md bg-white overflow-hidden relative">
+                <div className="flex flex-col md:flex-row gap-6 items-center">
+                  <div className="w-full md:w-48 aspect-square bg-slate-100 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-200">
+                    <img src="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&q=80&w=200" alt="Puzzle" className="rounded-lg opacity-50" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="bg-white/90 p-3 rounded-full shadow-lg">
+                        <Target className="h-8 w-8 text-indigo-600" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge className="bg-amber-100 text-amber-600 hover:bg-amber-100 border-none">Puzzle of the Day</Badge>
+                      <span className="text-xs font-bold text-slate-400">+25 XP</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">The Smothered Mate</h3>
+                    <p className="text-sm text-slate-500 mb-4">A classic tactical pattern where the King is trapped by its own pieces. Can you find the winning move?</p>
+                    <Button className="bg-indigo-600 hover:bg-indigo-700" asChild>
+                      <Link to="/puzzles">Solve Now</Link>
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+
               {/* Current Lesson */}
               <Card className="p-6">
                 <div className="flex justify-between items-center mb-6">
@@ -75,30 +101,6 @@ const StudentDashboard = () => {
                   </Button>
                 </div>
               </Card>
-
-              {/* Practice Modes */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card className="p-6 hover:shadow-md transition-shadow border-none bg-white">
-                  <div className="bg-amber-50 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
-                    <Trophy className="h-6 w-6 text-amber-600" />
-                  </div>
-                  <h4 className="font-bold text-slate-900 mb-2">Tactical Puzzles</h4>
-                  <p className="text-sm text-slate-500 mb-4">Improve your pattern recognition with 1,000+ curated puzzles.</p>
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link to="/puzzles">Start Puzzles</Link>
-                  </Button>
-                </Card>
-                <Card className="p-6 hover:shadow-md transition-shadow border-none bg-white">
-                  <div className="bg-indigo-50 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
-                    <Cpu className="h-6 w-6 text-indigo-600" />
-                  </div>
-                  <h4 className="font-bold text-slate-900 mb-2">Play vs AI</h4>
-                  <p className="text-sm text-slate-500 mb-4">Test your strategies against our adaptive chess engine.</p>
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link to="/play-ai">Start Practice</Link>
-                  </Button>
-                </Card>
-              </div>
             </div>
 
             <div className="space-y-8">
