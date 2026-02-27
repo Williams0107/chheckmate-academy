@@ -15,7 +15,9 @@ import {
   Sword,
   Search,
   Zap,
-  Compass
+  Compass,
+  FolderHeart,
+  Library
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +32,7 @@ const DashboardSidebar = ({ role }: SidebarProps) => {
     { icon: LayoutDashboard, label: 'Overview', path: '/teacher' },
     { icon: Users, label: 'My Classes', path: '/teacher/classes' },
     { icon: BookOpen, label: 'Curriculum', path: '/curriculum' },
+    { icon: Library, label: 'Resources', path: '/teacher/resources' },
     { icon: Sword, label: 'Tournaments', path: '/tournaments' },
     { icon: BarChart3, label: 'Analytics', path: '/teacher/analytics' },
     { icon: Settings, label: 'Settings', path: '/settings' },
@@ -38,6 +41,7 @@ const DashboardSidebar = ({ role }: SidebarProps) => {
   const studentLinks = [
     { icon: LayoutDashboard, label: 'My Progress', path: '/student' },
     { icon: ClipboardList, label: 'Assignments', path: '/student/assignments' },
+    { icon: FolderHeart, label: 'Portfolio', path: '/student/portfolio' },
     { icon: BookOpen, label: 'Lessons', path: '/curriculum' },
     { icon: Zap, label: 'Puzzle Rush', path: '/puzzle-rush' },
     { icon: Trophy, label: 'Puzzles', path: '/puzzles' },

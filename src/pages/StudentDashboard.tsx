@@ -4,6 +4,7 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import MobileDashboardNav from '@/components/MobileDashboardNav';
+import DailyQuests from '@/components/DailyQuests';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -101,6 +102,9 @@ const StudentDashboard = () => {
             </div>
 
             <div className="space-y-8">
+              {/* Daily Quests */}
+              <DailyQuests />
+
               {/* Stats Card */}
               <Card className="p-6">
                 <h3 className="font-bold text-slate-900 mb-6">Your Stats</h3>
@@ -133,29 +137,8 @@ const StudentDashboard = () => {
                     <span className="font-bold text-slate-900">88%</span>
                   </div>
                 </div>
-                <Button variant="outline" className="w-full mt-8">Detailed Analytics</Button>
-              </Card>
-
-              {/* Leaderboard Preview */}
-              <Card className="p-6">
-                <h3 className="font-bold text-slate-900 mb-6">Class Leaderboard</h3>
-                <div className="space-y-4">
-                  {[
-                    { rank: 1, name: 'Michael Chen', score: 1240, isMe: true },
-                    { rank: 2, name: 'Sarah Williams', score: 1185 },
-                    { rank: 3, name: 'Alex Johnson', score: 1120 },
-                  ].map((user) => (
-                    <div key={user.rank} className={`flex items-center justify-between p-2 rounded-lg ${user.isMe ? 'bg-indigo-50 border border-indigo-100' : ''}`}>
-                      <div className="flex items-center gap-3">
-                        <span className={`text-sm font-bold ${user.rank === 1 ? 'text-amber-500' : 'text-slate-400'}`}>#{user.rank}</span>
-                        <span className={`text-sm font-medium ${user.isMe ? 'text-indigo-700' : 'text-slate-700'}`}>{user.name}</span>
-                      </div>
-                      <span className="text-sm font-bold text-slate-900">{user.score}</span>
-                    </div>
-                  ))}
-                </div>
-                <Button variant="ghost" className="w-full mt-4 text-indigo-600" asChild>
-                  <Link to="/leaderboard">View Full Leaderboard</Link>
+                <Button variant="outline" className="w-full mt-8" asChild>
+                  <Link to="/student/stats">Detailed Analytics</Link>
                 </Button>
               </Card>
             </div>
