@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   RotateCcw, 
-  Trophy, 
   User, 
   Cpu, 
   ChevronLeft,
@@ -24,20 +23,23 @@ import { showSuccess, showError } from '@/utils/toast';
 
 const PlayAI = () => {
   const [game, setGame] = useState(new Chess());
-  const [difficulty, setDifficulty] = useState<'Easy' | 'Medium' | 'Hard'>('Medium');
+  const [difficulty] = useState<'Easy' | 'Medium' | 'Hard'>('Medium');
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
 
   const makeAMove = useCallback((move: any) => {
     try {
-      const result = game.move(move);
-      setGame(new Chess(game.fen()));
+      const gameCopy = new Chess(game.fen());
+      const result = gameCopy.move(move);
+      
       if (result) {
+        setGame(gameCopy);
         setMoveHistory(prev => [...prev, result.san]);
+        return result;
       }
-      return result;
     } catch (e) {
       return null;
     }
+    return null;
   }, [game]);
 
   function onDrop(sourceSquare: string, targetSquare: string) {
@@ -175,23 +177,6 @@ const PlayAI = () => {
                       <Settings2 className="h-4 w-4 mr-2" />
                       Settings
                     </Button>
-                  </div>
-                </Card>
-
-                <Card className="p-6 bg-indigo-900 text-white">
-                  <h3 className="font-bold mb-4 flex items-center gap-2">
-                    <Trophy className="h-5 w-5 text-amber-400" />
-                    Practice Goals
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                      <p className="text-sm text-indigo-100">Play 3 games today</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-indigo-400"></div>
-                      <p className="text-sm text-indigo-100">Win with 80%+ accuracy</p>
-                    </div>
                   </div>
                 </Card>
               </div>

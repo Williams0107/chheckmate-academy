@@ -14,12 +14,11 @@ interface ChessBoardProps {
 }
 
 const ChessBoard = ({ fen = 'start', onMove, interactive = true }: ChessBoardProps) => {
-  // Initialize game with the provided FEN
   const [game, setGame] = useState(new Chess(fen === 'start' ? undefined : fen));
   const [moveSquares, setMoveSquares] = useState({});
   const [optionSquares, setOptionSquares] = useState({});
 
-  // Sync game state when FEN prop changes (e.g., switching lessons/puzzles)
+  // Sync game state when FEN prop changes
   useEffect(() => {
     setGame(new Chess(fen === 'start' ? undefined : fen));
     setMoveSquares({});
@@ -48,7 +47,7 @@ const ChessBoard = ({ fen = 'start', onMove, interactive = true }: ChessBoardPro
     const move = makeAMove({
       from: sourceSquare,
       to: targetSquare,
-      promotion: 'q', // always promote to queen for simplicity in drills
+      promotion: 'q',
     });
     
     if (move === null) return false;
@@ -93,7 +92,8 @@ const ChessBoard = ({ fen = 'start', onMove, interactive = true }: ChessBoardPro
   }
 
   const resetGame = () => {
-    setGame(new Chess(fen === 'start' ? undefined : fen));
+    const newGame = new Chess(fen === 'start' ? undefined : fen);
+    setGame(newGame);
     setMoveSquares({});
     setOptionSquares({});
   };
@@ -120,10 +120,10 @@ const ChessBoard = ({ fen = 'start', onMove, interactive = true }: ChessBoardPro
       
       <div className="flex justify-between items-center bg-white p-3 rounded-lg border shadow-sm">
         <div className="flex gap-2">
-          <Button variant="outline" size="icon" onClick={() => {}} className="h-8 w-8">
+          <Button variant="outline" size="icon" className="h-8 w-8">
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" onClick={() => {}} className="h-8 w-8">
+          <Button variant="outline" size="icon" className="h-8 w-8">
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
