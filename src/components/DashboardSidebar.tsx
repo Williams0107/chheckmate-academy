@@ -10,7 +10,10 @@ import {
   Settings, 
   LogOut,
   BarChart3,
-  Cpu
+  Cpu,
+  ClipboardList,
+  Sword,
+  Search
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -25,16 +28,19 @@ const DashboardSidebar = ({ role }: SidebarProps) => {
     { icon: LayoutDashboard, label: 'Overview', path: '/teacher' },
     { icon: Users, label: 'My Classes', path: '/teacher/classes' },
     { icon: BookOpen, label: 'Curriculum', path: '/curriculum' },
+    { icon: Sword, label: 'Tournaments', path: '/tournaments' },
     { icon: BarChart3, label: 'Analytics', path: '/teacher/analytics' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
 
   const studentLinks = [
     { icon: LayoutDashboard, label: 'My Progress', path: '/student' },
+    { icon: ClipboardList, label: 'Assignments', path: '/student/assignments' },
     { icon: BookOpen, label: 'Lessons', path: '/curriculum' },
     { icon: Trophy, label: 'Puzzles', path: '/puzzles' },
+    { icon: Sword, label: 'Tournaments', path: '/tournaments' },
+    { icon: Search, label: 'Analysis', path: '/analysis' },
     { icon: Cpu, label: 'Play AI', path: '/play-ai' },
-    { icon: BarChart3, label: 'Stats', path: '/student/stats' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
 

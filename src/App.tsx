@@ -26,6 +26,9 @@ import Leaderboard from "./pages/Leaderboard";
 import Achievements from "./pages/Achievements";
 import TeacherAnalytics from "./pages/TeacherAnalytics";
 import StudentStats from "./pages/StudentStats";
+import GameAnalysis from "./pages/GameAnalysis";
+import Tournaments from "./pages/Tournaments";
+import StudentAssignments from "./pages/StudentAssignments";
 
 const queryClient = new QueryClient();
 
@@ -46,10 +49,13 @@ const App = () => (
           <Route path="/teacher/analytics" element={<TeacherAnalytics />} />
           <Route path="/student" element={<StudentDashboard />} />
           <Route path="/student/stats" element={<StudentStats />} />
+          <Route path="/student/assignments" element={<StudentAssignments />} />
           <Route path="/parent" element={<ParentDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/puzzles" element={<Puzzles />} />
           <Route path="/play-ai" element={<PlayAI />} />
+          <Route path="/analysis" element={<GameAnalysis />} />
+          <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/schools" element={<Schools />} />
@@ -58,7 +64,6 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/achievements" element={<Achievements />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
